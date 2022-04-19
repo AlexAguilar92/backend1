@@ -1,5 +1,5 @@
-import routes from "./handler"
+import userRoutes from "./user/userHandler";
 
 export {
-  routes
+  userRoutes
 }
