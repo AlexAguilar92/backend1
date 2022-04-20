@@ -1,7 +1,10 @@
 import express, { Express } from "express";
 import { userRoutes } from "./app";
+import dotenv from 'dotenv'
 const app: Express = express();
 const port: number = 8000; // default port to listen
+
+dotenv.config();
 
 app.use(express.json());
 

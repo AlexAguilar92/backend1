@@ -2,13 +2,25 @@ import express, { Router, Request, Response } from 'express';
 import { UserRepository } from '../../repository';
 
 const router: Router = express.Router();
+
 const userRepository: UserRepository = new UserRepository();
+
+router.get('/user/:id', (req: Request, res: Response) => {
+
+  const { id } = req.params;
+
+  const user = userRepository.findById(id as string);
+
+  res.status(200).send(user);
+
+});
 
 router.get('/user', (req: Request, res: Response) => {
 
-  const user = userRepository.findById("identificador");
+  const user = userRepository.find();
 
   res.status(200).send(user);
+
 });
 
 router.post('/user', (req: Request, res: Response) => {
