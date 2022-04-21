@@ -1,7 +1,7 @@
 import express, { Router, Request, Response } from 'express';
 import { UserRepository } from '../../repository';
 import IUser from '../../repository/entities/interface/IUser';
-import User from '../../repository/entities/User';
+import User from '../../repository/entities/implementation/User';
 import IUserRepository from '../../repository/user/interface/IUserRepository';
 
 const router: Router = express.Router();

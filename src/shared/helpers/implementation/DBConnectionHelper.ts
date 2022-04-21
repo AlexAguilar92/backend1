@@ -15,7 +15,7 @@ const dbConnectionHelper = connectionManager.create({
   synchronize: true,
   namingStrategy: new SnakeNamingStrategy(),
   entities: [
-    __dirname + '/../../../repository/entities/*.{js,ts}',
+    __dirname + '/../../../repository/entities/implementation/*.{js,ts}',
     // __dirname + "../../repository/entities/*.ts"
 
   ]

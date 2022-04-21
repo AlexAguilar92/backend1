@@ -3,7 +3,7 @@ import { SelectQueryBuilder } from "typeorm";
 import DBConnectionManager from "../../../shared/helpers/implementation/DBConnectionManager";
 import IDBConnectionManager from "../../../shared/helpers/interface/IDBConnectionManager";
 import IUser from "../../entities/interface/IUser";
-import User from "../../entities/User";
+import User from "../../entities/implementation/User";
 import IUserRepository from "../interface/IUserRepository";
 
 export default class UserRepository implements IUserRepository {

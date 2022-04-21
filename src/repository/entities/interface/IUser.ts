@@ -1,4 +1,4 @@
-import Todo from "../Todo";
+import Todo from "../implementation/Todo";
 
 export default interface IUser {
 
