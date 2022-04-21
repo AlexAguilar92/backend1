@@ -1,5 +1,6 @@
 import express, { Router, Request, Response } from 'express';
 import { UserRepository } from '../../repository';
+import IUser from '../../repository/entities/interface/IUser';
 import User from '../../repository/entities/User';
 import IUserRepository from '../../repository/user/interface/IUserRepository';
 
@@ -9,9 +10,9 @@ const iUserRepository: IUserRepository = new UserRepository();
 
 router.get('/user/:id', async (req: Request, res: Response, next) => {
   try {
-    const { id } = req.params;
+    const { id }: {[key: string]: string} = req.params;
 
-    const user: User = await iUserRepository.findById(id as string);
+    const user: IUser = await iUserRepository.findById(id as string);
 
     res.status(200).send(user);
   } catch (error) {
@@ -22,7 +23,7 @@ router.get('/user/:id', async (req: Request, res: Response, next) => {
 
 router.get('/user', async (req: Request, res: Response) => {
 
-  const users: User [] = await iUserRepository.find();
+  const users: IUser [] = await iUserRepository.find();
 
   res.status(200).send(users);
 
@@ -30,7 +31,7 @@ router.get('/user', async (req: Request, res: Response) => {
 
 router.post('/user', async (req: Request, res: Response) => {
   try {
-    const user = req.body;
+    const user: IUser = req.body;
 
     const createdUser = await iUserRepository.create(user);
 
