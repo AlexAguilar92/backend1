@@ -8,7 +8,7 @@ export default class DBConnectionManager {
     // tslint:disable-next-line:no-console
     console.info("DBConnectionManager", "connect");
     try {
-      if (!this.connection) this.connection = await dbConnectionHelper.connect();
+      if (!this.connection?.isInitialized ?? false) this.connection = await dbConnectionHelper.initialize();
 
       return this.connection;
     } catch (error) {
@@ -20,7 +20,7 @@ export default class DBConnectionManager {
 
   async disconnect(): Promise<void> {
     try {
-      await this.connection?.close();
+      await this.connection?.destroy();
     } catch (error) {
       throw error;
     }
