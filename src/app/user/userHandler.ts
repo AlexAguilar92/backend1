@@ -7,13 +7,16 @@ const router: Router = express.Router();
 
 const iUserRepository: IUserRepository = new UserRepository();
 
-router.get('/user/:id', async (req: Request, res: Response) => {
+router.get('/user/:id', async (req: Request, res: Response, next) => {
+  try {
+    const { id } = req.params;
 
-  const { id } = req.params;
+    const user: User = await iUserRepository.findById(id as string);
 
-  const user: User = await iUserRepository.findById(id as string);
-
-  res.status(200).send(user);
+    res.status(200).send(user);
+  } catch (error) {
+    next(new Error("hola"));
+  }
 
 });
 
