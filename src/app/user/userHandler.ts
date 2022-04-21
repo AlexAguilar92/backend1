@@ -15,12 +15,14 @@ const router: Router = express.Router();
 
 const validator = createValidator();
 
-router.get('/user/:id', validator.query(paramsSchema), async (req: ValidatedRequest<UserGetByIdSchema>, res: Response, next) => {
+router.get('/user/:id', validator.params(paramsSchema), async (req: ValidatedRequest<UserGetByIdSchema>, res: Response, next) => {
   const iUserRepository: IUserRepository = new UserRepository();
   try {
-    const { id }: {[key: string]: string} = req.params;
+    const { id }: { [key: string]: string } = req.params;
 
     const user: IUser = await iUserRepository.findById(id as string);
+    // tslint:disable-next-line:no-console
+    console.info(`Found user with id ${id}`, user);
 
     res.status(200).send(user);
   } catch (error) {
