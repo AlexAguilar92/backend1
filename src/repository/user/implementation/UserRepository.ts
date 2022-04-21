@@ -7,10 +7,9 @@ import User from "../../entities/implementation/User";
 import IUserRepository from "../interface/IUserRepository";
 
 export default class UserRepository implements IUserRepository {
-  private iDBConnectionManager: IDBConnectionManager;
+  private iDBConnectionManager: IDBConnectionManager = new DBConnectionManager();
 
   async findById(id: string): Promise<User> {
-    this.iDBConnectionManager = new DBConnectionManager();
     await this.iDBConnectionManager.connect();
     // tslint:disable-next-line:no-console
     // console.log(this.dBConnectionManager.connection);
@@ -36,7 +35,6 @@ export default class UserRepository implements IUserRepository {
   }
 
   async find(): Promise<User[]> {
-    this.iDBConnectionManager = new DBConnectionManager();
     await this.iDBConnectionManager.connect();
 
     try {
@@ -58,7 +56,6 @@ export default class UserRepository implements IUserRepository {
   }
 
   async create(user: Partial<User>): Promise<User> {
-    this.iDBConnectionManager = new DBConnectionManager();
     await this.iDBConnectionManager.connect();
 
     try {
