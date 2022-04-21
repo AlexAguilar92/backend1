@@ -1,6 +1,8 @@
 import { nextTick } from "process";
+import { SelectQueryBuilder } from "typeorm";
 import DBConnectionManager from "../../../shared/helpers/implementation/DBConnectionManager";
 import IDBConnectionManager from "../../../shared/helpers/interface/IDBConnectionManager";
+import IUser from "../../entities/interface/IUser";
 import User from "../../entities/User";
 import IUserRepository from "../interface/IUserRepository";
 
@@ -13,11 +15,11 @@ export default class UserRepository implements IUserRepository {
     // tslint:disable-next-line:no-console
     // console.log(this.dBConnectionManager.connection);
     try {
-      const query = this.iDBConnectionManager.connection
+      const query: SelectQueryBuilder<IUser> = this.iDBConnectionManager.connection
       .getRepository(User).createQueryBuilder("user")
       .where("user.id = :id", { id });
 
-      const user: User = await query.getOne();
+      const user: IUser = await query.getOne();
 
       return user;
       // tslint:disable-next-line:no-console
@@ -38,10 +40,10 @@ export default class UserRepository implements IUserRepository {
     await this.iDBConnectionManager.connect();
 
     try {
-      const query = this.iDBConnectionManager.connection
+      const query: SelectQueryBuilder<IUser> = this.iDBConnectionManager.connection
       .getRepository(User).createQueryBuilder("user");
 
-      const users: User[] = await query.getMany();
+      const users: IUser[] = await query.getMany();
 
       return users;
     } catch (error) {
