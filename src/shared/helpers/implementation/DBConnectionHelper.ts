@@ -1,9 +1,7 @@
-import { ConnectionManager } from "typeorm";
+import { DataSource } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
-const connectionManager = new ConnectionManager();
-
-const dbConnectionHelper = connectionManager.create({
+const dbConnectionHelper = new DataSource({
   host: "localhost",
   port: 5432,
   username: "postgres",
