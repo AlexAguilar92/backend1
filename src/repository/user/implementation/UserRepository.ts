@@ -1,3 +1,4 @@
+import { nextTick } from "process";
 import DBConnectionManager from "../../../shared/helpers/implementation/DBConnectionManager";
 import IDBConnectionManager from "../../../shared/helpers/interface/IDBConnectionManager";
 import User from "../../entities/User";
@@ -23,7 +24,7 @@ export default class UserRepository implements IUserRepository {
       // console.log(process.env.DATABASE_URL);
     } catch (error) {
       // tslint:disable-next-line:no-console
-      console.log(error)
+      console.error("UserRepository.findById", error)
       throw error;
     } finally {
       // tslint:disable-next-line:no-console
