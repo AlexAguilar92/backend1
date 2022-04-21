@@ -1,8 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import "reflect-metadata";
+import Todo from "./Todo";
+import IUser from "./interface/IUser";
 
 @Entity({ schema: 'public' })
-export default class User {
+export default class User implements IUser {
 
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -18,4 +20,7 @@ export default class User {
 
   @Column({default: true})
   status: boolean;
+
+  @OneToMany(() => Todo, (todo) => todo.user)
+  todos: Todo[];
 }
