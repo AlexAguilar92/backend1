@@ -1,20 +1,18 @@
-import DBConnectionManager from "../../../shared/helpers/DBConnectionManager";
+import DBConnectionManager from "../../../shared/helpers/implementation/DBConnectionManager";
+import IDBConnectionManager from "../../../shared/helpers/interface/IDBConnectionManager";
 import User from "../../entities/User";
 import IUserRepository from "../interface/IUserRepository";
 
 export default class UserRepository implements IUserRepository {
-  private dBConnectionManager: DBConnectionManager;
-
-  constructor() {
-    this.dBConnectionManager = new DBConnectionManager();
-  }
+  private iDBConnectionManager: IDBConnectionManager;
 
   async findById(id: string): Promise<User> {
-    await this.dBConnectionManager.connect();
+    this.iDBConnectionManager = new DBConnectionManager();
+    await this.iDBConnectionManager.connect();
     // tslint:disable-next-line:no-console
     // console.log(this.dBConnectionManager.connection);
     try {
-      const query = this.dBConnectionManager.connection
+      const query = this.iDBConnectionManager.connection
       .getRepository(User).createQueryBuilder("user")
       .where("user.id = :id", { id });
 
@@ -29,16 +27,17 @@ export default class UserRepository implements IUserRepository {
       throw error;
     } finally {
       // tslint:disable-next-line:no-console
-      await this.dBConnectionManager.disconnect();
+      await this.iDBConnectionManager.disconnect();
     }
 
   }
 
   async find(): Promise<User[]> {
-    await this.dBConnectionManager.connect();
+    this.iDBConnectionManager = new DBConnectionManager();
+    await this.iDBConnectionManager.connect();
 
     try {
-      const query = this.dBConnectionManager.connection
+      const query = this.iDBConnectionManager.connection
       .getRepository(User).createQueryBuilder("user");
 
       const users: User[] = await query.getMany();
@@ -47,7 +46,7 @@ export default class UserRepository implements IUserRepository {
     } catch (error) {
       throw error;
     } finally {
-      await this.dBConnectionManager.disconnect()
+      await this.iDBConnectionManager.disconnect()
     }
   }
 
@@ -56,11 +55,11 @@ export default class UserRepository implements IUserRepository {
   }
 
   async create(user: Partial<User>): Promise<User> {
-
-    await this.dBConnectionManager.connect();
+    this.iDBConnectionManager = new DBConnectionManager();
+    await this.iDBConnectionManager.connect();
 
     try {
-      const createdUser: User = await this.dBConnectionManager.connection
+      const createdUser: User = await this.iDBConnectionManager.connection
       .getRepository(User).save(user);
       // tslint:disable-next-line:no-console
       console.log("UserRepository.create", createdUser)
@@ -70,7 +69,7 @@ export default class UserRepository implements IUserRepository {
     } finally {
       // tslint:disable-next-line:no-console
       console.log("disconnected");
-      await this.dBConnectionManager.disconnect();
+      await this.iDBConnectionManager.disconnect();
     }
   }
 
