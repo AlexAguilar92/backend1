@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import "reflect-metadata";
 import Todo from "./Todo";
-import IUser from "./interface/IUser";
+import IUser from "../interface/IUser";
 
 @Entity({ schema: 'public' })
 export default class User implements IUser {
