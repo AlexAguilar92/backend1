@@ -2,6 +2,8 @@ import { ConnectionManager } from "typeorm";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 
 const connectionManager = new ConnectionManager();
+// tslint:disable-next-line:no-console
+console.log(__dirname)
 
 const dbConnectionHelper = connectionManager.create({
   host: "localhost",
@@ -13,7 +15,9 @@ const dbConnectionHelper = connectionManager.create({
   synchronize: true,
   namingStrategy: new SnakeNamingStrategy(),
   entities: [
-    "../../repository/entities/*.ts"
+    __dirname + '/../../repository/entities/*.{js,ts}',
+    // __dirname + "../../repository/entities/*.ts"
+
   ]
 });
 
