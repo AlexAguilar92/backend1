@@ -1,14 +1,22 @@
 import express, { Router, Request, Response } from 'express';
+import Joi from 'joi';
+import {
+  // Use this as a replacement for express.Request
+  ValidatedRequest,
+  // Creates a validator that generates middlewares
+  createValidator
+} from 'express-joi-validation';
 import { UserRepository } from '../../repository';
 import IUser from '../../repository/entities/interface/IUser';
-import User from '../../repository/entities/implementation/User';
 import IUserRepository from '../../repository/user/interface/IUserRepository';
+import { paramsSchema, UserGetByIdSchema } from './schemas/userGetByIdSchema';
 
 const router: Router = express.Router();
 
-const iUserRepository: IUserRepository = new UserRepository();
+const validator = createValidator();
 
-router.get('/user/:id', async (req: Request, res: Response, next) => {
+router.get('/user/:id', validator.query(paramsSchema), async (req: ValidatedRequest<UserGetByIdSchema>, res: Response, next) => {
+  const iUserRepository: IUserRepository = new UserRepository();
   try {
     const { id }: {[key: string]: string} = req.params;
 
@@ -18,11 +26,10 @@ router.get('/user/:id', async (req: Request, res: Response, next) => {
   } catch (error) {
     next(new Error("hola"));
   }
-
 });
 
 router.get('/user', async (req: Request, res: Response) => {
-
+  const iUserRepository: IUserRepository = new UserRepository();
   const users: IUser [] = await iUserRepository.find();
 
   res.status(200).send(users);
@@ -30,6 +37,7 @@ router.get('/user', async (req: Request, res: Response) => {
 });
 
 router.post('/user', async (req: Request, res: Response) => {
+  const iUserRepository: IUserRepository = new UserRepository();
   try {
     const user: IUser = req.body;
 
@@ -43,17 +51,17 @@ router.post('/user', async (req: Request, res: Response) => {
 });
 
 router.put('/user', (req: Request, res: Response) => {
-
+  const iUserRepository: IUserRepository = new UserRepository();
   res.send('put user');
 });
 
 router.patch('/user', (req: Request, res: Response) => {
-
+  const iUserRepository: IUserRepository = new UserRepository();
   res.send('patch user');
 });
 
 router.delete('/user', (req: Request, res: Response) => {
-
+  const iUserRepository: IUserRepository = new UserRepository();
   res.send('delete user');
 });
 
