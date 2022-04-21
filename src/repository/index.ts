@@ -1,4 +1,4 @@
-import UserRepository from "./user/UserRepository"
+import UserRepository from "./user/implementation/UserRepository"
 
 export {
   UserRepository
