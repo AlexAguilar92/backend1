@@ -6,7 +6,7 @@ export default class DBConnectionManager {
 
   async connect(): Promise<Connection> {
     // tslint:disable-next-line:no-console
-    console.log("DBConnectionManager", "connect");
+    console.info("DBConnectionManager", "connect");
     try {
       if (!this.connection) this.connection = await dbConnectionHelper.connect();
 
