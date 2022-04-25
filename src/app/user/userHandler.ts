@@ -10,6 +10,9 @@ import { UserRepository } from '../../repository';
 import IUser from '../../repository/entities/interface/IUser';
 import IUserRepository from '../../repository/user/interface/IUserRepository';
 import { paramsSchema, UserGetByIdSchema } from './schemas/userGetByIdSchema';
+import { IUserUseCase, UserUseCase } from '../../useCase';
+import { IUserAdapter, UserAdapter } from '../../adapter';
+import IUserDTO from '../../adapter/DTO/IUserDTO';
 
 const router: Router = express.Router();
 
@@ -17,11 +20,11 @@ const validator = createValidator();
 
 router.get('/user/:id', validator.params(paramsSchema),
 async (req: ValidatedRequest<UserGetByIdSchema>, res: Response, next) => {
-  const iUserRepository: IUserRepository = new UserRepository();
+  const iUserAdapter: IUserAdapter = new UserAdapter();
   try {
     const { id }: { [key: string]: string } = req.params;
 
-    const user: IUser = await iUserRepository.findById(id as string);
+    const user: IUserDTO = await iUserAdapter.findById(id as string);
     // tslint:disable-next-line:no-console
     console.info(`Found user with id ${id}`, user);
 
@@ -32,23 +35,25 @@ async (req: ValidatedRequest<UserGetByIdSchema>, res: Response, next) => {
 });
 
 router.get('/user', async (req: Request, res: Response) => {
-  const iUserRepository: IUserRepository = new UserRepository();
-  const users: IUser [] = await iUserRepository.find();
+  const iUserAdapter: IUserAdapter = new UserAdapter();
+  
+  const users: IUserDTO [] = await iUserAdapter.find();
 
   res.status(200).send(users);
 
 });
 
 router.post('/user', async (req: Request, res: Response) => {
-  const iUserRepository: IUserRepository = new UserRepository();
+  const iUserUseCase: IUserUseCase = new UserUseCase();
+
   try {
     const user: IUser = req.body;
 
-    const createdUser = await iUserRepository.create(user);
+    const createdUser = await iUserUseCase.create(user);
 
     res.status(201).send(createdUser);
   } catch (error) {
-    res.status(500).send("error")
+    res.status(500).send("error");
   }
 
 });
