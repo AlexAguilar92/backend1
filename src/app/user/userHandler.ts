@@ -15,7 +15,8 @@ const router: Router = express.Router();
 
 const validator = createValidator();
 
-router.get('/user/:id', validator.params(paramsSchema), async (req: ValidatedRequest<UserGetByIdSchema>, res: Response, next) => {
+router.get('/user/:id', validator.params(paramsSchema),
+async (req: ValidatedRequest<UserGetByIdSchema>, res: Response, next) => {
   const iUserRepository: IUserRepository = new UserRepository();
   try {
     const { id }: { [key: string]: string } = req.params;

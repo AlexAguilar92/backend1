@@ -1,9 +1,9 @@
-import { Connection } from "typeorm";
+import { DataSource } from "typeorm";
 
 export default interface IDBConnectionManager {
-  connection: Connection;
+  connection: DataSource;
 
-  connect(): Promise<Connection>;
+  connect(): Promise<DataSource>;
 
   disconnect(): Promise<void>;
 }

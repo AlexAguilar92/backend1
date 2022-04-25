@@ -1,10 +1,10 @@
-import { Connection } from "typeorm";
+import { Connection, DataSource } from "typeorm";
 import dbConnectionHelper from "./DBConnectionHelper";
 
 export default class DBConnectionManager {
-  connection: Connection;
+  connection: DataSource;
 
-  async connect(): Promise<Connection> {
+  async connect(): Promise<DataSource> {
     // tslint:disable-next-line:no-console
     console.info("DBConnectionManager", "connect");
     try {
