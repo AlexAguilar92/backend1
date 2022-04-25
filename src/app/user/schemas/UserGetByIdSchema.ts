@@ -8,7 +8,7 @@ interface UserGetByIdSchema extends ValidatedRequestSchema {
 }
 
 const paramsSchema = Joi.object({
-  id: Joi.string().uuid().optional()
+  id: Joi.string().uuid().required()
 });
 
 export {
